@@ -1,94 +1,194 @@
-/* Estilos generales */
 :root {
-    --bg-color: #121212;
-    --surface: #1e1e1e;
+    --bg-dark: #121212;
+    --surface-dark: #1e1e1e;
     --primary: #bb86fc;
+    --primary-variant: #3700b3;
     --text: #e1e1e1;
     --text-secondary: #a0a0a0;
+    --error: #cf6679;
 }
 
 body.dark-theme {
-    background-color: var(--bg-color);
+    background-color: var(--bg-dark);
     color: var(--text);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
+    min-height: 100vh;
 }
 
-/* Panel de ventas */
+/* Login */
+.login-container {
+    max-width: 400px;
+    margin: 5vh auto;
+    padding: 2rem;
+    background: var(--surface-dark);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    background: #2c2c2c;
+    border: none;
+    border-radius: 4px;
+    color: var(--text);
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.login-container button:hover {
+    background: var(--primary-variant);
+    color: white;
+}
+
+.error {
+    color: var(--error);
+    margin-bottom: 1rem;
+}
+
+/* Panel */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--surface-dark);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logout {
+    background: var(--primary);
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.logout:hover {
+    background: var(--primary-variant);
+    color: white;
+}
+
 .table-container {
+    padding: 2rem;
     overflow-x: auto;
-    padding: 1rem;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-}
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #333;
+    margin-top: 1rem;
 }
 
 th {
-    background-color: #2c2c2c;
-    position: sticky;
-    top: 0;
+    background: var(--primary-variant);
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
 }
 
-tr:hover {
-    background-color: #2a2a2a;
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #333;
+}
+
+tr:not(:first-child):hover {
+    background: #2a2a2a;
     cursor: pointer;
+}
+
+.whatsapp-link {
+    color: #25D366;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.whatsapp-link:hover {
+    text-decoration: underline;
 }
 
 /* Detalle de pedido */
 .detail-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    padding: 1rem;
+    padding: 2rem;
 }
 
-.client-info, .meta-info {
-    flex: 1;
-    min-width: 300px;
-    background: var(--surface);
+.detail-box {
+    background: var(--surface-dark);
     padding: 1.5rem;
     border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.client-info pre {
+.detail-box h2 {
+    color: var(--primary);
+    margin-top: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #333;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 8px 16px;
+    background: var(--primary);
+    color: #000;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.client-details pre {
     white-space: pre-wrap;
-    font-family: inherit;
     background: #2a2a2a;
     padding: 1rem;
     border-radius: 4px;
 }
 
-/* Botones */
-.logout, .back {
-    color: var(--primary);
-    padding: 8px 16px;
-    border: 1px solid var(--primary);
-    border-radius: 4px;
-    transition: all 0.3s;
+.order-details {
+    line-height: 1.8;
 }
 
-.logout:hover, .back:hover {
-    background: var(--primary);
-    color: #000;
+.total-display {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-top: 1rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    th, td {
-        padding: 8px 10px;
+    .detail-container {
+        grid-template-columns: 1fr;
     }
     
-    .detail-container {
-        flex-direction: column;
+    th, td {
+        padding: 8px 10px;
     }
 }
