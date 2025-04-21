@@ -14,6 +14,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $asunto = "Nuevo Pedido desde el sitio";
     $mensaje = isset($_POST["pedido"]) ? $_POST["pedido"] : "Sin datos.";
 
+    // ==============================================
+    // NUEVO: Procesamiento para guardar en CSV
+    // ==============================================
+    $fecha = date('Y-m-d H:i:s');
+    $id = uniqid();
+    
+    // Parsear datos del pedido (asumiendo que viene en formato texto)
+    $lineas = explode("\n", $mensaje);
+    $cliente = "No especificado";
+    $whatsapp = "No especificado";
+    $productos_resumen = "";
+    $total = "0";
+    
+    // Extraer información importante del mensaje
+    foreach ($lineas as $linea) {
+        if (strpos($linea, 'Nombre:') !== false) {
+            $cliente = trim(str_replace('Nombre:', '', $linea));
+        }
+        if (strpos($linea, 'Teléfono:') !== false) {
+            $whatsapp = trim(str_replace('Teléfono:', '', $linea));
+            // Limpiar número para WhatsApp
+            $whatsapp = preg_replace('/[^0-9]/', '', $whatsapp);
+        }
+        if (strpos($linea, 'Total:') !== false) {
+            $total = trim(str_replace('Total:', '', $linea));
+            // Limpiar formato de precio
+            $total = preg_replace('/[^0-9.]/', '', $total);
+        }
+        // Detectar líneas de productos (ajusta según tu formato)
+        if (strpos($linea, 'x ') !== false && strpos($linea, '$') !== false) {
+            $productos_resumen .= trim($linea) . ", ";
+        }
+    }
+    
+    $productos_resumen = rtrim($productos_resumen, ", ");
+    
+    // Guardar detalles completos en formato JSON
+    $detalles = json_encode([
+        'raw_message' => $mensaje,
+        'timestamp' => $fecha,
+        'ip' => $_SERVER['REMOTE_ADDR']
+    ]);
+    
+    // Crear array con los datos de la venta
+    $venta = [
+        $id,
+        $fecha,
+        $cliente,
+        $whatsapp,
+        $productos_resumen,
+        $total,
+        $detalles
+    ];
+    
+    // Guardar en archivo CSV
+    $archivo_csv = 'ventas.csv';
+    $file = fopen($archivo_csv, 'a');
+    
+    // Si el archivo está vacío, agregar encabezados
+    if (filesize($archivo_csv) == 0) {
+        fputcsv($file, ['ID', 'Fecha', 'Cliente', 'WhatsApp', 'Productos', 'Total', 'Detalles']);
+    }
+    
+    fputcsv($file, $venta);
+    fclose($file);
+    // ==============================================
+    // FIN de la nueva sección para CSV
+    // ==============================================
+
     // Cabeceras para el correo principal (julmago@gmail.com)
     $cabeceras_principal = "From: pedidos@tuseduccion.com.ar\r\n";
     $cabeceras_principal .= "Reply-To: pedidos@tuseduccion.com.ar\r\n";
