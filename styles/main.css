@@ -1,0 +1,498 @@
+:root {
+  --primary-color: #5c9eff;
+  --hover-color: #4a8df5;
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border-color: #333;
+  --shadow-color: rgba(0,0,0,0.3);
+  --error-color: #ff5252;
+  --success-color: #4caf50;
+  --disabled-color: #444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+  margin: 0;
+  padding: 15px;
+  background: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  padding-bottom: 100px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 0 0 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-color);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+th {
+  background-color: #2a2a2a;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+input[type="number"] {
+  width: 60px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+}
+
+.qty-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button {
+  cursor: pointer;
+  background: #333;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.2s;
+  color: var(--text-color);
+}
+
+button:hover {
+  background: #444;
+}
+
+.send-button {
+  padding: 12px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 200px;
+  margin: 10px auto;
+  display: block;
+  transition: background 0.2s;
+}
+
+.send-button:hover:not(:disabled) {
+  background-color: var(--hover-color);
+}
+
+.send-button:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.refresh-btn {
+  background-color: #333;
+  padding: 8px 12px;
+}
+
+.total-row {
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: #2a2a2a;
+}
+
+.img-container {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface-color);
+  border-radius: 4px;
+}
+
+.img-container img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  background-color: var(--surface-color);
+}
+
+.img-container img:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.loading {
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.error {
+  color: var(--error-color);
+  margin: 10px 0;
+}
+
+.min-order-message {
+  text-align: center;
+  margin: 10px 0;
+  color: var(--error-color);
+  font-weight: bold;
+  display: none;
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.9);
+  backdrop-filter: blur(5px);
+  overflow: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  touch-action: manipulation;
+}
+
+.modal.show {
+  opacity: 1;
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 95%;
+  max-height: 80vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  background: #2a2a2a;
+  padding: 10px;
+  object-fit: contain;
+}
+
+.modal.show .modal-content {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+  z-index: 1001;
+}
+
+.close:hover {
+  transform: scale(1.1);
+}
+
+.caption {
+  margin: auto;
+  display: block;
+  width: 90%;
+  text-align: center;
+  color: white;
+  padding: 10px 0;
+  position: absolute;
+  bottom: 20px;
+  left: 5%;
+  font-size: 1rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Barra fija inferior para móviles */
+.fixed-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface-color);
+  padding: 10px 15px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+  z-index: 999;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-color);
+}
+
+.fixed-bottom-bar .total {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.fixed-bottom-bar .send-button {
+  margin: 0;
+  max-width: none;
+  flex: 1;
+  margin-left: 15px;
+}
+
+/* Estilos para el formulario de datos */
+.form-container {
+  margin: 30px 0;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--surface-color);
+}
+
+.form-title {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.form-description {
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: calc(50% - 8px);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(92, 158, 255, 0.2);
+}
+
+.required-field::after {
+  content: " *";
+  color: var(--error-color);
+}
+
+/* Estilos responsivos - Versión móvil */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 80px;
+  }
+  
+  .fixed-bottom-bar {
+    display: flex;
+  }
+  
+  .min-order-message {
+    display: block;
+  }
+  
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+
+  tr {
+    border: 1px solid var(--border-color);
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    padding: 10px;
+    background-color: var(--surface-color);
+  }
+  
+  td {
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    padding-left: 45%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: var(--surface-color);
+  }
+  
+  td:before {
+    position: absolute;
+    left: 10px;
+    width: 40%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--text-color);
+  }
+  
+  td:nth-of-type(1):before { content: "Código"; }
+  td:nth-of-type(2):before { content: "Imagen"; }
+  td:nth-of-type(3):before { content: "Descripción"; }
+  td:nth-of-type(4):before { content: "Cantidad"; }
+  td:nth-of-type(5):before { content: "Precio"; }
+  td:nth-of-type(6):before { content: "Subtotal"; }
+  
+  .img-container {
+    width: 80px;
+    height: 80px;
+  }
+  
+  input[type="number"] {
+    width: 70px;
+    padding: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .qty-buttons {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  
+  .qty-buttons button {
+    padding: 10px 15px;
+    font-size: 1.1rem;
+  }
+  
+  .total-row {
+    display: none;
+  }
+  
+  .send-button:not(.fixed-bottom-bar .send-button) {
+    display: none;
+  }
+  
+  .modal-content {
+    max-width: 98%;
+    max-height: 85vh;
+    padding: 5px;
+  }
+  
+  .close {
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+  }
+  
+  .caption {
+    font-size: 0.9rem;
+    bottom: 10px;
+  }
+  
+  /* Formulario responsivo */
+  .form-container {
+    padding: 15px;
+  }
+  
+  .form-group {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  td {
+    padding-left: 45%;
+    font-size: 0.9rem;
+    min-height: 45px;
+  }
+  
+  .img-container {
+    width: 150px;
+    height: 150px;
+  }
+  
+  input[type="number"] {
+    width: 60px;
+  }
+  
+  .fixed-bottom-bar {
+    padding: 8px 10px;
+  }
+  
+  .fixed-bottom-bar .total {
+    font-size: 1rem;
+  }
+  
+  .fixed-bottom-bar .send-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .form-container {
+    padding: 10px;
+  }
+}

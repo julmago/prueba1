@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido HellPrix</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <!-- Modal para imagen ampliada -->
+  <div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="expandedImg">
+    <div id="caption" class="caption"></div>
+  </div>
+
+  <h2>Lista de Productos <button onclick="loadProducts()" class="refresh-btn">Actualizar</button></h2>
+  <p id="loading-status" class="loading">Cargando listado de productos...</p>
+
+  <form id="pedido-form" action="enviar-pedido.php" method="POST" onsubmit="return prepareFormData()">
+    <div style="overflow-x: auto;">
+      <table id="product-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Imagen</th>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Las filas se generarán dinámicamente desde JavaScript -->
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="5" style="text-align:right">TOTAL:</td>
+            <td id="grand-total">$0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Formulario de datos del cliente -->
+    <div class="form-container">
+      <div class="form-title">Datos de Facturación y Envío</div>
+      <div class="form-description">Por favor complete todos los campos obligatorios (*) para procesar su pedido.</div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="required-field">Nombre</label>
+          <input type="text" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label class="required-field">Apellido</label>
+          <input type="text" name="apellido" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="required-field">Celular / Whatsapp</label>
+          <input type="tel" name="telefono" placeholder="Ej. 11 5504-1219" required>
+        </div>
+        <div class="form-group">
+          <label class="required-field">E-mail</label>
+          <input type="email" name="email" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="required-field">DNI / CUIT</label>
+          <input type="text" name="dni_cuit" required>
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input type="text" name="empresa">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="required-field">País</label>
+          <input type="text" name="pais" required>
+        </div>
+        <div class="form-group">
+          <label class="required-field">Provincia</label>
+          <input type="text" name="provincia" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="required-field">Ciudad/Localidad/Barrio</label>
+          <input type="text" name="localidad" required>
+        </div>
+        <div class="form-group">
+          <label class="required-field">Código Postal</label>
+          <input type="text" name="codigo_postal" placeholder="Ej. 1417" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="required-field">Dirección (calle, altura, piso y depto)</label>
+          <input type="text" name="direccion" required>
+        </div>
+        <div class="form-group">
+          <label class="required-field">Referencia de la dirección</label>
+          <input type="text" name="referencia" placeholder="Ej. entre calles" required>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" name="pedido" id="pedido-data">
+    <button type="submit" class="send-button" id="desktop-submit-button" disabled>Enviar Pedido</button>
+  </form>
+
+  <!-- Mensaje de mínimo de compra -->
+  <div class="min-order-message" id="min-order-message">
+    Mínimo de compra: $20.000 - Agrega más productos para habilitar el envío
+  </div>
+
+  <!-- Barra fija inferior para móviles -->
+  <div class="fixed-bottom-bar">
+    <div class="total">TOTAL: <span id="mobile-grand-total">$0</span></div>
+    <button type="submit" form="pedido-form" class="send-button" id="mobile-submit-button" disabled>Enviar Pedido</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="scripts/config.js"></script>
+  <script src="scripts/modal.js"></script>
+  <script src="scripts/products.js"></script>
+  <script src="scripts/form.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
