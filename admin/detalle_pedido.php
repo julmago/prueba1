@@ -16,9 +16,7 @@ foreach ($ventas as $v) {
     }
 }
 
-if (!$venta) {
-    die('Venta no encontrada');
-}
+if (!$venta) die('Venta no encontrada');
 
 $detalles = json_decode($venta[6], true);
 ?>
@@ -33,25 +31,20 @@ $detalles = json_decode($venta[6], true);
 </head>
 <body class="dark-theme">
     <header>
-        <h1>Detalle de Pedido #<?= substr($id, 0, 8) ?></h1>
+        <h1>Pedido #<?= substr($id, 0, 8) ?></h1>
         <a href="panel.php" class="back">Volver</a>
     </header>
     
     <div class="detail-container">
         <div class="client-info">
             <h2>Datos del Cliente</h2>
-            <p><strong>Nombre:</strong> <?= $detalles['cliente']['nombre'] ?></p>
-            <p><strong>Teléfono:</strong> <a href="https://wa.me/<?= $detalles['cliente']['telefono'] ?>"><?= $detalles['cliente']['telefono'] ?></a></p>
-            <!-- Agrega más campos según necesites -->
+            <pre><?= htmlspecialchars($detalles['raw_message']) ?></pre>
         </div>
         
-        <div class="products-info">
-            <h2>Productos</h2>
-            <ul>
-                <?php foreach ($detalles['productos'] as $producto): ?>
-                <li><?= $producto['nombre'] ?> - $<?= number_format($producto['precio'], 2) ?></li>
-                <?php endforeach; ?>
-            </ul>
+        <div class="meta-info">
+            <h2>Información Adicional</h2>
+            <p><strong>Fecha:</strong> <?= $venta[1] ?></p>
+            <p><strong>IP:</strong> <?= $detalles['ip'] ?></p>
             <p class="total"><strong>Total:</strong> $<?= number_format($venta[5], 2) ?></p>
         </div>
     </div>

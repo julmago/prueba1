@@ -1,3 +1,4 @@
+/* Estilos generales */
 :root {
     --bg-color: #121212;
     --surface: #1e1e1e;
@@ -15,23 +16,7 @@ body.dark-theme {
     line-height: 1.6;
 }
 
-.login-container {
-    max-width: 400px;
-    margin: 5rem auto;
-    padding: 2rem;
-    background: var(--surface);
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-header {
-    background: var(--surface);
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
+/* Panel de ventas */
 .table-container {
     overflow-x: auto;
     padding: 1rem;
@@ -40,7 +25,6 @@ header {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
 }
 
 th, td {
@@ -51,6 +35,8 @@ th, td {
 
 th {
     background-color: #2c2c2c;
+    position: sticky;
+    top: 0;
 }
 
 tr:hover {
@@ -58,16 +44,7 @@ tr:hover {
     cursor: pointer;
 }
 
-a {
-    color: var(--primary);
-    text-decoration: none;
-}
-
-.error {
-    color: #ff5555;
-    margin-bottom: 1rem;
-}
-
+/* Detalle de pedido */
 .detail-container {
     display: flex;
     flex-wrap: wrap;
@@ -75,7 +52,7 @@ a {
     padding: 1rem;
 }
 
-.client-info, .products-info {
+.client-info, .meta-info {
     flex: 1;
     min-width: 300px;
     background: var(--surface);
@@ -83,20 +60,35 @@ a {
     border-radius: 8px;
 }
 
-.total {
-    font-size: 1.2rem;
-    margin-top: 1rem;
+.client-info pre {
+    white-space: pre-wrap;
+    font-family: inherit;
+    background: #2a2a2a;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+/* Botones */
+.logout, .back {
     color: var(--primary);
+    padding: 8px 16px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.logout:hover, .back:hover {
+    background: var(--primary);
+    color: #000;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .login-container {
-        margin: 2rem 1rem;
-        padding: 1.5rem;
-    }
-    
     th, td {
         padding: 8px 10px;
+    }
+    
+    .detail-container {
+        flex-direction: column;
     }
 }

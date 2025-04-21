@@ -6,8 +6,13 @@ if (!isset($_SESSION['admin_logged'])) {
 }
 
 $ventas = array_map('str_getcsv', file('../ventas.csv'));
+// Eliminar encabezados si existen
+if (isset($ventas[0][0]) && $ventas[0][0] === 'ID') {
+    array_shift($ventas);
+}
+
 usort($ventas, function($a, $b) {
-    return strtotime($b[1]) - strtotime($a[1]); // Ordenar por fecha (más nuevas primero)
+    return strtotime($b[1]) - strtotime($a[1]); // Orden descendente
 });
 ?>
 
@@ -21,7 +26,7 @@ usort($ventas, function($a, $b) {
 </head>
 <body class="dark-theme">
     <header>
-        <h1>Ventas Realizadas</h1>
+        <h1>Listado de Ventas</h1>
         <a href="logout.php" class="logout">Salir</a>
     </header>
     
@@ -30,10 +35,8 @@ usort($ventas, function($a, $b) {
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Fecha</th>
                     <th>Cliente</th>
-                    <th>WhatsApp</th>
-                    <th>Productos</th>
+                    <th>Contacto</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -41,10 +44,8 @@ usort($ventas, function($a, $b) {
                 <?php foreach ($ventas as $venta): ?>
                 <tr onclick="window.location='detalle_pedido.php?id=<?= $venta[0] ?>'">
                     <td><?= substr($venta[0], 0, 8) ?></td>
-                    <td><?= $venta[1] ?></td>
-                    <td><?= $venta[2] ?></td>
-                    <td><a href="https://wa.me/<?= $venta[3] ?>" target="_blank">Contactar</a></td>
-                    <td><?= $venta[4] ?></td>
+                    <td><?= htmlspecialchars($venta[2]) ?></td>
+                    <td><a href="https://wa.me/<?= $venta[3] ?>" target="_blank"><?= $venta[3] ?></a></td>
                     <td>$<?= number_format($venta[5], 2) ?></td>
                 </tr>
                 <?php endforeach; ?>
